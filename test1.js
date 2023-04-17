@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const connectionUrl = "mongodb://localhost:27017/carsCrudApp";
+const connectionUrl = "mongodb://127.0.0.1";
 const client = new MongoClient(connectionUrl);
 
 const dbName ="carsCrudApp";
@@ -11,17 +11,15 @@ async function main(){
     const db = client.db(dbName);
     const collection = db.collection("cars");
 
-    const newCar = {
-        make :"saab",
-        model :"900",
-        year: 1999
-    };
-
-    const result = await collection.insertOne(newCar);
+    const findResult = await collection.find({}).toArray();
 
     console.log({result});
 
     return "done!";
+}
+
+async function addNewCar(){
+    
 }
 
 main ()
