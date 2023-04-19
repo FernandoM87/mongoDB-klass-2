@@ -52,6 +52,38 @@ app.post("/new-car", async (req, res) => {
     res.redirect("/")
 })
 
+app.get("/cars/:id", async (req,res) => {
+    const objectId = new ObjectId(req.params.id);
+    const collection = await getCarsCollection();
+    const car = await collection.findOne({_id: objectId});
+
+    res.render("edit-car", {car})
+})
+
+app.post("/edit-car/:id", async (req,res) => {
+    const updatedCar = {
+        make: req.body.make,
+        model: req.body.model,
+        year: req.body.year,
+    };
+
+    const objectId = new ObjectId(req.params.id);
+    const collection = await getCarsCollection();
+    await collection.updateOne({ _id: objectId }, { $set: updatedCar });
+
+    res.redirect("/")
+})
+
+app.post("/delete-car/:id", async (req, res) => {
+
+    const objectId = new ObjectId(req.params.id);
+    const collection = await getCarsCollection();
+    await collection.deleteOne({ _id: objectId })
+
+    res.redirect("/")
+
+})
+ 
 app.listen(8000,  () => {
     console.log("http://localhost:8000/");
 });
