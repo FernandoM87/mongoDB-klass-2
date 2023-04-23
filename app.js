@@ -1,12 +1,14 @@
+require('dotenv').config()
 const express = require ("express");
 const exphbs = require ("express-handlebars");
 const { MongoClient, ObjectId } = require("mongodb")
 var bodyParser = require('body-parser')
 
-const connectionUrl = "mongodb://127.0.0.1";
+
+const connectionUrl = process.env.MONGODB_URL;
 const client = new MongoClient(connectionUrl);
 
-const dbName ="carsCrudApp";
+const dbName =process.env.MONGODB_DATABASE;
 
 async function getCarsCollection() {
     await client.connect()
